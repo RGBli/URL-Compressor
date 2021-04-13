@@ -46,7 +46,7 @@ POST http://localhost:8080/zip
 2）使用短 URL 来访问
 在浏览器输入生成的短链接 00001，加上服务前缀即可访问长链接
 ```
-http://localhost:8080/api/00001
+http://localhost:8080/api?url=00001
 ```
 
 
