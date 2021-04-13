@@ -18,8 +18,8 @@ public class RedisServiceImpl implements RedisService {
      * 设置永不过期
      */
     @Override
-    public void set(String shortUrl, String longUrl) {
-        stringRedisTemplate.opsForValue().set(shortUrl, longUrl);
+    public void set(String key, String value) {
+        stringRedisTemplate.opsForValue().set(key, value);
     }
 
     /**
@@ -28,14 +28,14 @@ public class RedisServiceImpl implements RedisService {
      * expire 表示有效期为多少分钟，如果为-1则表示永不过期
      */
     @Override
-    public void set(String shortUrl, String longUrl, long expire) {
-        if (!hasKey(shortUrl)) {
+    public void set(String key, String value, long expire) {
+        if (!hasKey(key)) {
             increaseSequence();
         }
         if (expire == -1) {
-            stringRedisTemplate.opsForValue().set(shortUrl, longUrl);
+            stringRedisTemplate.opsForValue().set(key, value);
         } else {
-            stringRedisTemplate.opsForValue().set(shortUrl, longUrl, expire, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(key, value, expire, TimeUnit.MINUTES);
         }
     }
 
@@ -56,8 +56,8 @@ public class RedisServiceImpl implements RedisService {
      * 从 Redis 中根据短链接获取长链接
      */
     @Override
-    public String get(String shortUrl) {
-        return stringRedisTemplate.opsForValue().get(shortUrl);
+    public String get(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
     }
 
     /**

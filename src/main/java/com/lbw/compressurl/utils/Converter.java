@@ -42,6 +42,9 @@ public class Converter {
         return sb.reverse().toString();
     }
 
+    /**
+     * 测试10进制转62进制算法是否正确
+     */
     public static void main(String[] args) throws Exception {
         System.out.println(convertSequenceToBase62(1));
     }

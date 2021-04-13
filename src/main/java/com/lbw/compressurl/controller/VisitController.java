@@ -16,8 +16,10 @@ public class VisitController {
     @RequestMapping("/api/{shortUrl}")
     public String visit(@PathVariable String shortUrl) {
         String longUrl = redisService.get(shortUrl);
+        // 如果短链接没有存入 Redis，则用输入链接访问
+        // 如果已经存入 Redis，则重定向到长链接
         if (longUrl == null) {
-            return "exceptions/notexist";
+            return REDIRECT_PREFIX + shortUrl;
         } else {
             return REDIRECT_PREFIX + longUrl;
         }
