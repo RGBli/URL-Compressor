@@ -21,11 +21,15 @@ public class CompressController {
         String longUrl = receiver.getUrl();
         long expire = receiver.getExpire();
 
-        // 获取序号
-        int n = Integer.parseInt(redisService.get("sequence"));
-        // 计算短链接
-        String shortUrl = Converter.convertSequenceToBase62(n);
-        redisService.set(shortUrl, longUrl, expire);
-        return shortUrl;
+        // 防止并发读取 sequence 出现错误的情况
+        synchronized (this) {
+            // 获取序号
+            int n = Integer.parseInt(redisService.get("sequence"));
+            // 计算短链接
+            String shortUrl = Converter.convertSequenceToBase62(n);
+            // 添加 key-value 对并增加 sequence
+            redisService.set(shortUrl, longUrl, expire);
+            return shortUrl;
+        }
     }
 }
