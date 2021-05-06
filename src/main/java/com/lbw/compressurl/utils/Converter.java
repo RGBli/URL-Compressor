@@ -8,15 +8,15 @@ public class Converter {
     static {
         int index = 0;
         while (index < 10) {
-            table[index] = (char)(index + '0');
+            table[index] = (char) (index + '0');
             index++;
         }
         while (index < 36) {
-            table[index] = (char)(index + 55);
+            table[index] = (char) (index + 55);
             index++;
         }
         while (index < 62) {
-            table[index] = (char)(index + 61);
+            table[index] = (char) (index + 61);
             index++;
         }
     }
