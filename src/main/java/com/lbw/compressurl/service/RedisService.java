@@ -9,6 +9,8 @@ public interface RedisService {
 
     String get(String key);
 
+    Long getAndIncr(String key);
+
     boolean hasKey(String key);
 
     void persist(String key);

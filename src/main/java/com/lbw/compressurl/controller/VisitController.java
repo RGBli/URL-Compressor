@@ -15,10 +15,14 @@ public class VisitController {
     private final static String REDIRECT_PREFIX = "redirect:";
 
     @RequestMapping("/api")
-    public String visit(@RequestParam String url) {
+    public String visit(@RequestParam String url) throws Exception {
+        if (url.charAt(0) == '@') {
+            throw new Exception("Wrong url");
+        }
+
         String longUrl = redisService.get(url);
-        // 如果短链接没有存入 Redis，则用输入链接访问
-        // 如果已经存入 Redis，则重定向到长链接
+        // 如果短链接没有存入 Redis，则直接用输入链接访问
+        // 如果已经存入 Redis，则按照长链接重定向访问
         if (longUrl == null) {
             return REDIRECT_PREFIX + url;
         } else {

@@ -61,6 +61,14 @@ public class RedisServiceImpl implements RedisService {
     }
 
     /**
+     * 自增并返回增加后的值
+     */
+    @Override
+    public Long getAndIncr(String key) {
+        return stringRedisTemplate.opsForValue().increment(key, 1L);
+    }
+
+    /**
      * 判断 key 是否存在
      */
     @Override
