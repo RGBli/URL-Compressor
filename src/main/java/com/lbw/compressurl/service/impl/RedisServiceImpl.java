@@ -2,6 +2,7 @@ package com.lbw.compressurl.service.impl;
 
 import com.lbw.compressurl.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,30 +26,27 @@ public class RedisServiceImpl implements RedisService {
     /**
      * 设置 key-value 为短链接-长链接
      * 并且设置过期时间
-     * expire 表示有效期为多少分钟，如果为-1则表示永不过期
+     * expire 表示有效期为多少秒，如果为-1则表示永不过期
      */
     @Override
     public void set(String key, String value, long expire) {
-        if (!hasKey(key)) {
-            increaseSequence();
-        }
         if (expire == -1) {
             stringRedisTemplate.opsForValue().set(key, value);
         } else {
-            stringRedisTemplate.opsForValue().set(key, value, expire, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(key, value, expire, TimeUnit.MILLISECONDS);
         }
     }
 
     /**
      * 设置 key 的过期时间
-     * expire 表示有效期为多少分钟，如果为-1则表示永不过期
+     * expire 表示有效期为多少毫秒，如果为-1则表示永不过期
      */
     @Override
     public void setExpire(String key, long expire) {
         if (expire == -1) {
             persist(key);
         } else {
-            stringRedisTemplate.expire(key, expire, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(key, expire, TimeUnit.MILLISECONDS);
         }
     }
 
